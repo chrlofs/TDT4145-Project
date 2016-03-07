@@ -45,7 +45,7 @@ public class DBController {
 
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println("A new excercise was inserted successfully!");
+            System.out.println("A new sport was inserted successfully!");
         }
     }
 
@@ -68,7 +68,7 @@ public class DBController {
 
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println("A new excercise was inserted successfully!");
+            System.out.println("A new training session was inserted successfully!");
         }
     }
     public void addExcercise(int sets, int reps, int load, double distance, int duration, String name, Date time) throws SQLException{
@@ -107,11 +107,48 @@ public class DBController {
         }
         return notes;
     }
+//NOT FINISHED
+    public List<Excercise> getExercises(String name) throws SQLException{
+        final String queryCheck = "SELECT * from ExercisePerformed";
+        final PreparedStatement ps = conn.prepareStatement(queryCheck);
+        ResultSet results = ps.executeQuery();
+        List<String> notes = new ArrayList<String>();
+        while(results.next()){
+            notes.add(results.getString(1));
+        }
+        return notes;
+    }
+
+    public void addGoal(Date date, double speed, int weightLifted, String exerciseName) throws SQLException{
+        String sql = "INSERT INTO Goal (Date, Speed, TotalWeightLifted, Achieved, Exercise_Name) VALUES (?, ?, ?, ?, ?)";
+
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setDate(1, date);
+        statement.setDouble(2, speed);
+        statement.setInt(3, weightLifted);
+        statement.setBoolean(4, false);
+        statement.setString(5, name);
+
+
+        int rowsInserted = statement.executeUpdate();
+        if (rowsInserted > 0) {
+            System.out.println("A new goal was inserted successfully!");
+        }
+    }
+
 
     public void createGroup(String name) throws SQLException{
         String sql = "INSERT INTO Group (Name) VALUES(?)";
         PreparedStatement ps = conn.prepareStateMent(sql);
         ps.setString(1, name);
+        ps.executeUpdate();
+    }
+
+    public void addGroupToExercise(String exercise, String group) throws SQLException{
+        String sql = "INSERT INTO Exercise_has_Group (Group_Name, Exercise_Name) VALUES(?, ?)";
+        PreparedStatement ps = conn.prepareStateMent(sql);
+        ps.setString(1, group);
+        ps.setString(2, exercise);
         ps.executeUpdate();
     }
 
