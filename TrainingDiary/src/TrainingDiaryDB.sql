@@ -1,156 +1,156 @@
-CREATE SCHEMA IF NOT EXISTS `treningsdagbok` ;
-USE `treningsdagbok` ;
+CREATE SCHEMA IF NOT EXISTS 'training_diary' ;
+USE 'training_diary';
 
 -- -----------------------------------------------------
--- Table `treningsdagbok`.`sport`
+-- Table 'training_diary'.'sport'
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`sport` (
-  `name` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`name`))
+CREATE TABLE IF NOT EXISTS 'training_diary'.'sport' (
+  'name' VARCHAR(30) NOT NULL,
+  PRIMARY KEY ('name'));
 
 
 -- -----------------------------------------------------
--- Table `treningsdagbok`.`Training Session`
+-- Table 'training_diary'.'training_session'
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`Training Session` (
-  `Date` DATETIME NOT NULL,
-  `Duration` INT NULL,
-  `Shape` INT NULL,
-  `Rating` INT NULL,
-  `Note` INT NULL,
-  `sport_name` VARCHAR(30) NOT NULL,
-  `Type` VARCHAR(45) NULL,
-  `Weather_type` VARCHAR(45) NULL,
-  `Temperature` DECIMAL(3) NULL,
-  `Humidity` DECIMAL(3) NULL,
-  `Spectators` INT NULL,
-  PRIMARY KEY (`Date`),
-  INDEX `fk_Training Session_sport_idx` (`sport_name` ASC),
-  CONSTRAINT `fk_Training Session_sport`
-  FOREIGN KEY (`sport_name`)
-  REFERENCES `treningsdagbok`.`sport` (`name`)
+CREATE TABLE IF NOT EXISTS 'training_diary'.'training_session' (
+  'Date' DATETIME NOT NULL,
+  'Duration' INT NULL,
+  'Shape' INT NULL,
+  'Rating' INT NULL,
+  'Note' INT NULL,
+  'sport_name' VARCHAR(30) NOT NULL,
+  'Type' VARCHAR(45) NULL,
+  'Weather_type' VARCHAR(45) NULL,
+  'Temperature' DECIMAL(3) NULL,
+  'Humidity' DECIMAL(3) NULL,
+  'Spectators' INT NULL,
+  PRIMARY KEY ('Date'),
+  INDEX 'fk_training_session_sport_idx' ('sport_name' ASC),
+  CONSTRAINT 'fk_training_session_sport'
+  FOREIGN KEY ('sport_name')
+  REFERENCES 'training_diary'.'sport' ('name')
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION);
 
 
 -- -----------------------------------------------------
--- Table `treningsdagbok`.`Exercise`
+-- Table 'training_diary'.'exercise'
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`Exercise` (
-  `Name` VARCHAR(30) NOT NULL,
-  `Description` VARCHAR(60) NULL,
-  PRIMARY KEY (`Name`))
+CREATE TABLE IF NOT EXISTS 'training_diary'.'exercise' (
+  'Name' VARCHAR(30) NOT NULL,
+  'Description' VARCHAR(60) NULL,
+  PRIMARY KEY ('Name'))
 
 
 -- -----------------------------------------------------
--- Table `treningsdagbok`.`ExcercisePerformed`
+-- Table 'training_diary'.'excercise_performed'
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`ExcercisePerformed` (
-  `Sets` INT NULL,
-  `Reps` INT NULL,
-  `Load` INT NULL,
-  `Distance` DECIMAL(2) NULL,
-  `Duration` INT NULL,
-  `Exercise_Name` VARCHAR(30) NOT NULL,
-  `Training Session_Date` DATETIME NOT NULL,
-  PRIMARY KEY (`Exercise_Name`, `Training Session_Date`),
-  INDEX `fk_ExcercisePerformed_Training Session1_idx` (`Training Session_Date` ASC),
-  CONSTRAINT `fk_ExcercisePerformed_Exercise1`
-  FOREIGN KEY (`Exercise_Name`)
-  REFERENCES `treningsdagbok`.`Exercise` (`Name`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ExcercisePerformed_Training Session1`
-  FOREIGN KEY (`Training Session_Date`)
-  REFERENCES `treningsdagbok`.`Training Session` (`Date`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-
-
--- -----------------------------------------------------
--- Table `treningsdagbok`.`Goal`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`Goal` (
-  `Date` DATE NOT NULL,
-  `Speed` DECIMAL(3) NULL,
-  `TotalWeightLifted` INT NULL,
-  `Achieved` TINYINT(1) NULL,
-  `Exercise_Name` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`Date`, `Exercise_Name`),
-  INDEX `fk_Goal_Exercise1_idx` (`Exercise_Name` ASC),
-  CONSTRAINT `fk_Goal_Exercise1`
-  FOREIGN KEY (`Exercise_Name`)
-  REFERENCES `treningsdagbok`.`Exercise` (`Name`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-
-
--- -----------------------------------------------------
--- Table `treningsdagbok`.`Group`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`Group` (
-  `Name` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`Name`))
-
-
--- -----------------------------------------------------
--- Table `treningsdagbok`.`Exercise_has_Group`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`Exercise_has_Group` (
-  `Exercise_Name` VARCHAR(30) NOT NULL,
-  `Group_Name` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`Exercise_Name`, `Group_Name`),
-  INDEX `fk_Exercise_has_Group_Group1_idx` (`Group_Name` ASC),
-  INDEX `fk_Exercise_has_Group_Exercise1_idx` (`Exercise_Name` ASC),
-  CONSTRAINT `fk_Exercise_has_Group_Exercise1`
-  FOREIGN KEY (`Exercise_Name`)
-  REFERENCES `treningsdagbok`.`Exercise` (`Name`)
+CREATE TABLE IF NOT EXISTS 'training_diary'.'excercise_performed' (
+  'Sets' INT NULL,
+  'Reps' INT NULL,
+  'Load' INT NULL,
+  'Distance' DECIMAL(2) NULL,
+  'Duration' INT NULL,
+  'exercise_Name' VARCHAR(30) NOT NULL,
+  'training_session_Date' DATETIME NOT NULL,
+  PRIMARY KEY ('exercise_Name', 'training_session_Date'),
+  INDEX 'fk_excercise_performed_training_session1_idx' ('training_session_Date' ASC),
+  CONSTRAINT 'fk_excercise_performed_exercise1'
+  FOREIGN KEY ('exercise_Name')
+  REFERENCES 'training_diary'.'exercise' ('Name')
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Exercise_has_Group_Group1`
-  FOREIGN KEY (`Group_Name`)
-  REFERENCES `treningsdagbok`.`Group` (`Name`)
+  CONSTRAINT 'fk_excercise_performed_training_session1'
+  FOREIGN KEY ('training_session_Date')
+  REFERENCES 'training_diary'.'training_session' ('Date')
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION);
 
 
 -- -----------------------------------------------------
--- Table `treningsdagbok`.`Group_has_Group`
+-- Table 'training_diary'.'goal'
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`Group_has_Group` (
-  `Group_Name` VARCHAR(30) NOT NULL,
-  `Group_Name1` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`Group_Name`, `Group_Name1`),
-  INDEX `fk_Group_has_Group_Group2_idx` (`Group_Name1` ASC),
-  INDEX `fk_Group_has_Group_Group1_idx` (`Group_Name` ASC),
-  CONSTRAINT `fk_Group_has_Group_Group1`
-  FOREIGN KEY (`Group_Name`)
-  REFERENCES `treningsdagbok`.`Group` (`Name`)
+CREATE TABLE IF NOT EXISTS 'training_diary'.'goal' (
+  'Date' DATE NOT NULL,
+  'Speed' DECIMAL(3) NULL,
+  'TotalWeightLifted' INT NULL,
+  'Achieved' TINYINT(1) NULL,
+  'exercise_Name' VARCHAR(30) NOT NULL,
+  PRIMARY KEY ('Date', 'exercise_Name'),
+  INDEX 'fk_goal_exercise1_idx' ('exercise_Name' ASC),
+  CONSTRAINT 'fk_goal_exercise1'
+  FOREIGN KEY ('exercise_Name')
+  REFERENCES 'training_diary'.'exercise' ('Name')
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+-- -----------------------------------------------------
+-- Table 'training_diary'.'group'
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS 'training_diary'.'group' (
+  'Name' VARCHAR(30) NOT NULL,
+  PRIMARY KEY ('Name'))
+
+
+-- -----------------------------------------------------
+-- Table 'training_diary'.'exercise_has_group'
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS 'training_diary'.'exercise_has_group' (
+  'exercise_Name' VARCHAR(30) NOT NULL,
+  'group_Name' VARCHAR(30) NOT NULL,
+  PRIMARY KEY ('exercise_Name', 'group_Name'),
+  INDEX 'fk_exercise_has_group_group1_idx' ('group_Name' ASC),
+  INDEX 'fk_exercise_has_group_exercise1_idx' ('exercise_Name' ASC),
+  CONSTRAINT 'fk_exercise_has_group_exercise1'
+  FOREIGN KEY ('exercise_Name')
+  REFERENCES 'training_diary'.'exercise' ('Name')
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Group_has_Group_Group2`
-  FOREIGN KEY (`Group_Name1`)
-  REFERENCES `treningsdagbok`.`Group` (`Name`)
+  CONSTRAINT 'fk_exercise_has_group_group1'
+  FOREIGN KEY ('group_Name')
+  REFERENCES 'training_diary'.'group' ('Name')
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION);
 
 
 -- -----------------------------------------------------
--- Table `treningsdagbok`.`Exercise_is_similar_to`
+-- Table 'training_diary'.'group_has_group'
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`Exercise_is_similar_to` (
-  `Exercise_Name` VARCHAR(30) NOT NULL,
-  `Exercise_Name1` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`Exercise_Name`, `Exercise_Name1`),
-  INDEX `fk_Exercise_has_Exercise_Exercise2_idx` (`Exercise_Name1` ASC),
-  INDEX `fk_Exercise_has_Exercise_Exercise1_idx` (`Exercise_Name` ASC),
-  CONSTRAINT `fk_Exercise_has_Exercise_Exercise1`
-  FOREIGN KEY (`Exercise_Name`)
-  REFERENCES `treningsdagbok`.`Exercise` (`Name`)
+CREATE TABLE IF NOT EXISTS 'training_diary'.'group_has_group' (
+  'group_Name' VARCHAR(30) NOT NULL,
+  'group_Name1' VARCHAR(30) NOT NULL,
+  PRIMARY KEY ('group_Name', 'group_Name1'),
+  INDEX 'fk_group_has_group_group2_idx' ('group_Name1' ASC),
+  INDEX 'fk_group_has_group_group1_idx' ('group_Name' ASC),
+  CONSTRAINT 'fk_group_has_group_group1'
+  FOREIGN KEY ('group_Name')
+  REFERENCES 'training_diary'.'group' ('Name')
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Exercise_has_Exercise_Exercise2`
-  FOREIGN KEY (`Exercise_Name1`)
-  REFERENCES `treningsdagbok`.`Exercise` (`Name`)
+  CONSTRAINT 'fk_group_has_group_group2'
+  FOREIGN KEY ('group_Name1')
+  REFERENCES 'training_diary'.'group' ('Name')
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION);
+
+
+-- -----------------------------------------------------
+-- Table 'training_diary'.'exercise_is_similar_to'
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS 'training_diary'.'exercise_is_similar_to' (
+  'exercise_Name' VARCHAR(30) NOT NULL,
+  'exercise_Name1' VARCHAR(30) NOT NULL,
+  PRIMARY KEY ('exercise_Name', 'exercise_Name1'),
+  INDEX 'fk_exercise_has_exercise_exercise2_idx' ('exercise_Name1' ASC),
+  INDEX 'fk_exercise_has_exercise_exercise1_idx' ('exercise_Name' ASC),
+  CONSTRAINT 'fk_exercise_has_exercise_exercise1'
+  FOREIGN KEY ('exercise_Name')
+  REFERENCES 'training_diary'.'exercise' ('Name')
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT 'fk_exercise_has_exercise_exercise2'
+  FOREIGN KEY ('exercise_Name1')
+  REFERENCES 'training_diary'.'exercise' ('Name')
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
