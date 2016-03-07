@@ -1,8 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Date;
+import java.sql.*;
 
 /**
  * Created by Vegard on 07/03/16.
@@ -75,6 +71,32 @@ public class DBController {
             System.out.println("A new excercise was inserted successfully!");
         }
     }
+    public void addExcercise(int sets, int reps, int load, double distance, int duration, String name, Date time) throws SQLException{
+        String sql = "INSERT INTO ExercisePerformed (Sets, Reps, Load, Distance, Duration, Excercise_Name, TrainingSessionDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setInt(1, sets);
+        statement.setInt(2, reps);
+        statement.setInt(3, load);
+        statement.setDouble(4, distance);
+        statement.setInt(5, duration);
+        statement.setString(6, name);
+        statement.setDate(7, time);
+    }
+
+    public boolean ExcerciseExists(String name) throws SQLException{
+        final String queryCheck = "SELECT count(*) from Excercise WHERE name = ?";
+        final PreparedStatement ps = conn.prepareStatement(queryCheck);
+        ps.setString(1, name);
+        final ResultSet resultSet = ps.executeQuery();
+        int count = 0;
+        if(resultSet.next()) {
+            count = resultSet.getInt(1);
+        }
+        return count>0;
+    }
+
+    
 
     public static void main(String[] args){
         DBController c = new DBController();
