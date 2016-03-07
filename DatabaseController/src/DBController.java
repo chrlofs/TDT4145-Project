@@ -82,6 +82,7 @@ public class DBController {
         statement.setInt(5, duration);
         statement.setString(6, name);
         statement.setDate(7, time);
+        statement.executeUpdate();
     }
 
     public boolean ExcerciseExists(String name) throws SQLException{
@@ -96,7 +97,23 @@ public class DBController {
         return count>0;
     }
 
-    
+    public List<String> getNotes() throws SQLException{
+        final String queryCheck = "SELECT note from TrainingSession";
+        final PreparedStatement ps = conn.prepareStatement(queryCheck);
+        ResultSet results = ps.executeQuery();
+        List<String> notes = new ArrayList<String>();
+        while(results.next()){
+            notes.add(results.getString(1));
+        }
+        return notes;
+    }
+
+    public void createGroup(String name) throws SQLException{
+        String sql = "INSERT INTO Group (Name) VALUES(?)";
+        PreparedStatement ps = conn.prepareStateMent(sql);
+        ps.setString(1, name);
+        ps.executeUpdate();
+    }
 
     public static void main(String[] args){
         DBController c = new DBController();
