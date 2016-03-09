@@ -18,7 +18,6 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'training_session' (
   'Humidity' DECIMAL(3) NULL,
   'Spectators' INT NULL,
   PRIMARY KEY ('Date'),
-  INDEX 'fk_training_session_sport_idx' ('sport_name' ASC),
   CONSTRAINT 'fk_training_session_sport'
   FOREIGN KEY ('sport_name')
   REFERENCES 'training_diary'.'sport' ('name')
@@ -39,7 +38,6 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'excercise_performed' (
   'exercise_Name' VARCHAR(30) NOT NULL,
   'training_session_Date' DATETIME NOT NULL,
   PRIMARY KEY ('exercise_Name', 'training_session_Date'),
-  INDEX 'fk_excercise_performed_training_session1_idx' ('training_session_Date' ASC),
   CONSTRAINT 'fk_excercise_performed_exercise1'
   FOREIGN KEY ('exercise_Name')
   REFERENCES 'training_diary'.'exercise' ('Name')
@@ -58,7 +56,6 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'goal' (
   'Achieved' TINYINT(1) NULL,
   'exercise_Name' VARCHAR(30) NOT NULL,
   PRIMARY KEY ('Date', 'exercise_Name'),
-  INDEX 'fk_goal_exercise1_idx' ('exercise_Name' ASC),
   CONSTRAINT 'fk_goal_exercise1'
   FOREIGN KEY ('exercise_Name')
   REFERENCES 'training_diary'.'exercise' ('Name')
@@ -73,8 +70,6 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'exercise_has_group' (
   'exercise_Name' VARCHAR(30) NOT NULL,
   'group_Name' VARCHAR(30) NOT NULL,
   PRIMARY KEY ('exercise_Name', 'group_Name'),
-  INDEX 'fk_exercise_has_group_group1_idx' ('group_Name' ASC),
-  INDEX 'fk_exercise_has_group_exercise1_idx' ('exercise_Name' ASC),
   CONSTRAINT 'fk_exercise_has_group_exercise1'
   FOREIGN KEY ('exercise_Name')
   REFERENCES 'training_diary'.'exercise' ('Name')
@@ -90,8 +85,6 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'group_has_group' (
   'group_Name' VARCHAR(30) NOT NULL,
   'group_Name1' VARCHAR(30) NOT NULL,
   PRIMARY KEY ('group_Name', 'group_Name1'),
-  INDEX 'fk_group_has_group_group2_idx' ('group_Name1' ASC),
-  INDEX 'fk_group_has_group_group1_idx' ('group_Name' ASC),
   CONSTRAINT 'fk_group_has_group_group1'
   FOREIGN KEY ('group_Name')
   REFERENCES 'training_diary'.'group' ('Name')
@@ -107,8 +100,6 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'exercise_is_similar_to' (
   'exercise_Name' VARCHAR(30) NOT NULL,
   'exercise_Name1' VARCHAR(30) NOT NULL,
   PRIMARY KEY ('exercise_Name', 'exercise_Name1'),
-  INDEX 'fk_exercise_has_exercise_exercise2_idx' ('exercise_Name1' ASC),
-  INDEX 'fk_exercise_has_exercise_exercise1_idx' ('exercise_Name' ASC),
   CONSTRAINT 'fk_exercise_has_exercise_exercise1'
   FOREIGN KEY ('exercise_Name')
   REFERENCES 'training_diary'.'exercise' ('Name')
