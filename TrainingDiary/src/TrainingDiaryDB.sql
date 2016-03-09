@@ -1,17 +1,10 @@
-CREATE SCHEMA IF NOT EXISTS 'training_diary' ;
+CREATE DATABASE IF NOT EXISTS 'training_diary' ;
 USE 'training_diary';
 
--- -----------------------------------------------------
--- Table 'training_diary'.'sport'
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS 'training_diary'.'sport' (
   'name' VARCHAR(30) NOT NULL,
   PRIMARY KEY ('name'));
 
-
--- -----------------------------------------------------
--- Table 'training_diary'.'training_session'
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS 'training_diary'.'training_session' (
   'Date' DATETIME NOT NULL,
   'Duration' INT NULL,
@@ -32,19 +25,11 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'training_session' (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-
--- -----------------------------------------------------
--- Table 'training_diary'.'exercise'
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS 'training_diary'.'exercise' (
   'Name' VARCHAR(30) NOT NULL,
   'Description' VARCHAR(60) NULL,
   PRIMARY KEY ('Name'))
 
-
--- -----------------------------------------------------
--- Table 'training_diary'.'excercise_performed'
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS 'training_diary'.'excercise_performed' (
   'Sets' INT NULL,
   'Reps' INT NULL,
@@ -66,10 +51,6 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'excercise_performed' (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-
--- -----------------------------------------------------
--- Table 'training_diary'.'goal'
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS 'training_diary'.'goal' (
   'Date' DATE NOT NULL,
   'Speed' DECIMAL(3) NULL,
@@ -84,18 +65,10 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'goal' (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-
--- -----------------------------------------------------
--- Table 'training_diary'.'group'
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS 'training_diary'.'group' (
   'Name' VARCHAR(30) NOT NULL,
   PRIMARY KEY ('Name'))
 
-
--- -----------------------------------------------------
--- Table 'training_diary'.'exercise_has_group'
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS 'training_diary'.'exercise_has_group' (
   'exercise_Name' VARCHAR(30) NOT NULL,
   'group_Name' VARCHAR(30) NOT NULL,
@@ -113,10 +86,6 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'exercise_has_group' (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-
--- -----------------------------------------------------
--- Table 'training_diary'.'group_has_group'
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS 'training_diary'.'group_has_group' (
   'group_Name' VARCHAR(30) NOT NULL,
   'group_Name1' VARCHAR(30) NOT NULL,
@@ -134,10 +103,6 @@ CREATE TABLE IF NOT EXISTS 'training_diary'.'group_has_group' (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-
--- -----------------------------------------------------
--- Table 'training_diary'.'exercise_is_similar_to'
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS 'training_diary'.'exercise_is_similar_to' (
   'exercise_Name' VARCHAR(30) NOT NULL,
   'exercise_Name1' VARCHAR(30) NOT NULL,
