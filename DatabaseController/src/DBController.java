@@ -8,9 +8,9 @@ import java.util.List;
 public class DBController {
     Connection conn ;
     public DBController(){
-        String dbURL = "FillIn";
+        String dbURL = "jdbc:mysql://localhost:3306/training_diary_DB";
         String username = "root";
-        String password = "secret";
+        String password = "";
 
         try {
 
@@ -25,14 +25,18 @@ public class DBController {
     }
 
     public void addExercise(String name, String description) throws SQLException{
-        String sql = "INSERT INTO Excercise (name, description) VALUES (?, ?)";
+        String sql = "INSERT INTO treningsdagbok.Exercise (Name, Description) VALUES (?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
+        System.out.println("statement created");
         statement.setString(1, name);
+        System.out.println("added name");
         statement.setString(2, description);
+        System.out.println("Added desc");
 
 
         int rowsInserted = statement.executeUpdate();
+        System.out.println("updated");
         if (rowsInserted > 0) {
             System.out.println("A new excercise was inserted successfully!");
         }
@@ -73,7 +77,7 @@ public class DBController {
             System.out.println("A new training session was inserted successfully!");
         }
     }
-    public void addExcercise(int sets, int reps, int load, double distance, int duration, String name, Date time) throws SQLException{
+    public void addExcercisePerformed(int sets, int reps, int load, double distance, int duration, String name, Date time) throws SQLException{
         String sql = "INSERT INTO ExercisePerformed (Sets, Reps, Load, Distance, Duration, Excercise_Name, TrainingSessionDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
@@ -165,5 +169,10 @@ public class DBController {
 
     public static void main(String[] args){
         DBController c = new DBController();
+        try{
+            c.addExercise("Deadlift", "Supercool");
+        }catch(SQLException e){
+            System.out.print("SQL error");
+        }
     }
 }
