@@ -75,15 +75,9 @@ public class DBController {
             System.out.println("A new training session was inserted successfully!");
         }
     }
-<<<<<<< Updated upstream
-
-    public void addExcercisePerformed(Integer sets, Integer reps, Integer load, Double distance, Integer duration, String name, Date time) throws SQLException {
-        String sql = "INSERT INTO treningsdagbok.ExercisePerformed (Sets, Reps, Load, Distance, Duration, Excercise_Name, TrainingSessionDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-=======
     public void addExcercisePerformed(Integer sets, Integer reps, Integer weight, double distance, Integer duration, String name, Date time) throws SQLException{
         String sql = "INSERT INTO treningsdagbok.ExercisePerformed (Sets, Reps, Weight, Distance, Duration, Exercise_Name, TrainingSession_Date) VALUES (?, ?, ?, ?, ?, ?, ?)";
         System.out.println(sql);
->>>>>>> Stashed changes
 
         PreparedStatement statement = conn.prepareStatement(sql);
         System.out.println();
