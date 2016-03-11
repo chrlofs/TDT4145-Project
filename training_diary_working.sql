@@ -64,8 +64,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `treningsdagbok`.`ExercisePerformed` (
   `Sets` INT NULL,
   `Reps` INT NULL,
-  `Load` INT NULL,
-  `Distance` DECIMAL(2) NULL,
+  `Weight` INT NULL,
+  `Distance` FLOAT(4, 2) NULL,
   `Duration` INT NULL,
   `Exercise_Name` VARCHAR(30) NOT NULL,
   `TrainingSession_Date` DATETIME NOT NULL,

@@ -52,7 +52,7 @@ public class DBController {
     }
 
     public void addTrainingSession(Date time, Integer duration, Integer shape, Integer rating, String note,
-                                   String sportname, String type, Double temperature, Double humidity, Integer spectators) throws SQLException {
+                                   String sportname, String type, String weather_type, double temperature, double humidity, Integer spectators) throws SQLException {
         String sql = "INSERT INTO treningsdagbok.TrainingSession (Date, Duration, Shape, Rating, Note, sport_name, Type, Weather_type, Temperature, Humidity, Spectators) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
@@ -63,9 +63,11 @@ public class DBController {
         statement.setString(5, note);
         statement.setString(6, sportname);
         statement.setString(7, type);
-        statement.setDouble(8, temperature);
-        statement.setDouble(9, humidity);
-        statement.setInt(10, spectators);
+        statement.setString(8, weather_type);
+        statement.setDouble(9, temperature);
+        statement.setDouble(10, humidity);
+        statement.setInt(11, spectators);
+        System.out.println(sql);
 
 
         int rowsInserted = statement.executeUpdate();
@@ -73,19 +75,33 @@ public class DBController {
             System.out.println("A new training session was inserted successfully!");
         }
     }
+<<<<<<< Updated upstream
 
     public void addExcercisePerformed(Integer sets, Integer reps, Integer load, Double distance, Integer duration, String name, Date time) throws SQLException {
         String sql = "INSERT INTO treningsdagbok.ExercisePerformed (Sets, Reps, Load, Distance, Duration, Excercise_Name, TrainingSessionDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+=======
+    public void addExcercisePerformed(Integer sets, Integer reps, Integer weight, double distance, Integer duration, String name, Date time) throws SQLException{
+        String sql = "INSERT INTO treningsdagbok.ExercisePerformed (Sets, Reps, Weight, Distance, Duration, Exercise_Name, TrainingSession_Date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        System.out.println(sql);
+>>>>>>> Stashed changes
 
         PreparedStatement statement = conn.prepareStatement(sql);
+        System.out.println();
+        System.out.println("Statment was made, ey o k");
         statement.setInt(1, sets);
+        System.out.println("First thing was put in");
         statement.setInt(2, reps);
-        statement.setInt(3, load);
+        statement.setInt(3, weight);
         statement.setDouble(4, distance);
         statement.setInt(5, duration);
         statement.setString(6, name);
         statement.setDate(7, time);
-        statement.executeUpdate();
+        System.out.println(sql);
+        int rowsInserted = statement.executeUpdate();
+        System.out.println("THe line after");
+        if (rowsInserted > 0) {
+            System.out.println("A new exercise was performed");
+        }
     }
 
     public boolean ExcerciseExists(String name) throws SQLException {
@@ -123,8 +139,8 @@ public class DBController {
             int sets = results.getInt(1);
             int reps = results.getInt(2);
             int load = results.getInt(3);
-            Double distance = results.getDouble(4);
-            int duration = results.getInt(5);
+            double distance = results.getDouble(4);
+            int duration = results.getInt(5) ;
             String excercise_name = results.getString(6);
             Date time = results.getDate(7);
             e = new Excercise(sets, reps, load, distance, duration, excercise_name, time);
@@ -133,7 +149,7 @@ public class DBController {
         return notes;
     }
 
-    public void addGoal(Date date, Double speed, Integer weightLifted, String exerciseName) throws SQLException {
+    public void addGoal(Date date, double speed, Integer weightLifted, String exerciseName) throws SQLException{
         String sql = "INSERT INTO treningsdagbok.Goal (Date, Speed, TotalWeightLifted, Achieved, Exercise_Name) VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
@@ -169,16 +185,23 @@ public class DBController {
 
     public static void main(String[] args) {
         DBController c = new DBController();
-        try {
+        try{
+            String s = "Bench Press";
+            /*
+            Date d = new Date(1,1,1);
             c.addSport("Olympic lifts");
-            c.addExercise("Bench Press", "Press a bench");
-            c.addTrainingSession(new Date(1, 1, 1), 50, 10, 7, "Fucking killed it today. I'm a beast",
-                    "Olympic lifts", "Weightlifting", null, null, 1000000);
-            c.addExcercisePerformed(5, 5, 100, null, null, "Bench Press", new Date(1, 1, 1));
-            c.getNotes();
+            c.addExercise(s, "Press a bench");
+            c.addTrainingSession(d,50,10,7,"Fucking killed it today. I'm a beast",
+                    "Olympic lifts", "Indoor", "0", 0, 0, 1000000);
+            c.addExcercisePerformed(5,5,100,0,0,s,d);
+            System.out.println(c.getNotes());
+            */
+            System.out.println(c.getExercises(s));
 
-        } catch (SQLException e) {
-            System.out.print("SQL error");
+
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
         }
     }
 
