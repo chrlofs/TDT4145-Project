@@ -10,7 +10,7 @@ public class DBController {
     public DBController(){
         String dbURL = "jdbc:mysql://localhost:3306/training_diary_DB";
         String username = "root";
-        String password = "";
+        String password = "7x32qus1Sql";
 
         try {
 
@@ -28,15 +28,10 @@ public class DBController {
         String sql = "INSERT INTO treningsdagbok.Exercise (Name, Description) VALUES (?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
-        System.out.println("statement created");
         statement.setString(1, name);
-        System.out.println("added name");
         statement.setString(2, description);
-        System.out.println("Added desc");
-
 
         int rowsInserted = statement.executeUpdate();
-        System.out.println("updated");
         if (rowsInserted > 0) {
             System.out.println("A new excercise was inserted successfully!");
         }
@@ -55,8 +50,8 @@ public class DBController {
         }
     }
 
-    public void addTrainingSession(Date time, int duration, int shape, int rating, String note,
-                                   String sportname, String type, double temperature, double humidity, int spectators) throws SQLException {
+    public void addTrainingSession(Date time, Integer duration, Integer shape, Integer rating, String note,
+                                   String sportname, String type, Double temperature, Double humidity, Integer spectators) throws SQLException {
         String sql = "INSERT INTO treningsdagbok.TrainingSession (Date, Duration, Shape, Rating, Note, sport_name, Type, Weather_type, Temperature, Humidity, Spectators) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
@@ -77,7 +72,7 @@ public class DBController {
             System.out.println("A new training session was inserted successfully!");
         }
     }
-    public void addExcercisePerformed(int sets, int reps, int load, double distance, int duration, String name, Date time) throws SQLException{
+    public void addExcercisePerformed(Integer sets, Integer reps, Integer load, Double distance, Integer duration, String name, Date time) throws SQLException{
         String sql = "INSERT INTO treningsdagbok.ExercisePerformed (Sets, Reps, Load, Distance, Duration, Excercise_Name, TrainingSessionDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
@@ -124,7 +119,7 @@ public class DBController {
             int sets = results.getInt(1);
             int reps = results.getInt(2);
             int load = results.getInt(3);
-            double distance = results.getDouble(4);
+            Double distance = results.getDouble(4);
             int duration = results.getInt(5) ;
             String excercise_name = results.getString(6);
             Date time = results.getDate(7);
@@ -134,7 +129,7 @@ public class DBController {
         return notes;
     }
 
-    public void addGoal(Date date, double speed, int weightLifted, String exerciseName) throws SQLException{
+    public void addGoal(Date date, Double speed, Integer weightLifted, String exerciseName) throws SQLException{
         String sql = "INSERT INTO treningsdagbok.Goal (Date, Speed, TotalWeightLifted, Achieved, Exercise_Name) VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
@@ -170,7 +165,13 @@ public class DBController {
     public static void main(String[] args){
         DBController c = new DBController();
         try{
-            c.addExercise("Deadlift", "Supercool");
+            c.addSport("Olympic lifts");
+            c.addExercise("Bench Press", "Press a bench");
+            c.addTrainingSession(new Date(1,1,1),50,10,7,"Fucking killed it today. I'm a beast",
+                    "Olympic lifts", "Weightlifting", null, null, 1000000);
+            c.addExcercisePerformed(5,5,100,null,null,"Bench Press",new Date(1,1,1));
+            c.getNotes();
+
         }catch(SQLException e){
             System.out.print("SQL error");
         }
