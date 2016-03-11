@@ -43,7 +43,7 @@ public class DBController {
     }
 
     public void addSport(String name) throws SQLException{
-        String sql = "INSERT INTO Excercise (name) VALUES (?)";
+        String sql = "INSERT INTO treningsdagbok.sport (name) VALUES (?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setString(1, name);
@@ -57,7 +57,7 @@ public class DBController {
 
     public void addTrainingSession(Date time, int duration, int shape, int rating, String note,
                                    String sportname, String type, double temperature, double humidity, int spectators) throws SQLException {
-        String sql = "INSERT INTO Training_Session (Time, Duration, Shape, Rating, Note, sport_name, Type, Weather_type, Temperature, Humidity, Spectators) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO treningsdagbok.TrainingSession (Date, Duration, Shape, Rating, Note, sport_name, Type, Weather_type, Temperature, Humidity, Spectators) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setDate(1, time);
@@ -78,7 +78,7 @@ public class DBController {
         }
     }
     public void addExcercisePerformed(int sets, int reps, int load, double distance, int duration, String name, Date time) throws SQLException{
-        String sql = "INSERT INTO ExercisePerformed (Sets, Reps, Load, Distance, Duration, Excercise_Name, TrainingSessionDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO treningsdagbok.ExercisePerformed (Sets, Reps, Load, Distance, Duration, Excercise_Name, TrainingSessionDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setInt(1, sets);
@@ -104,7 +104,7 @@ public class DBController {
     }
 
     public List<String> getNotes() throws SQLException{
-        final String queryCheck = "SELECT note from TrainingSession";
+        final String queryCheck = "SELECT note from treningsdagbok.TrainingSession";
         final PreparedStatement ps = conn.prepareStatement(queryCheck);
         ResultSet results = ps.executeQuery();
         List<String> notes = new ArrayList<String>();
@@ -115,7 +115,7 @@ public class DBController {
     }
 //NOT FINISHED
     public List<Excercise> getExercises(String name) throws SQLException{
-        final String queryCheck = "SELECT * from ExercisePerformed where ExercisePerformed.Exercise_Name=name";
+        final String queryCheck = "SELECT * from treningsdagbok.ExercisePerformed where ExercisePerformed.Exercise_Name=name";
         final PreparedStatement ps = conn.prepareStatement(queryCheck);
         ResultSet results = ps.executeQuery();
         List<Excercise> notes = new ArrayList<Excercise>();
@@ -135,7 +135,7 @@ public class DBController {
     }
 
     public void addGoal(Date date, double speed, int weightLifted, String exerciseName) throws SQLException{
-        String sql = "INSERT INTO Goal (Date, Speed, TotalWeightLifted, Achieved, Exercise_Name) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO treningsdagbok.Goal (Date, Speed, TotalWeightLifted, Achieved, Exercise_Name) VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setDate(1, date);
@@ -153,14 +153,14 @@ public class DBController {
 
 
     public void createGroup(String name) throws SQLException{
-        String sql = "INSERT INTO Group (Name) VALUES(?)";
+        String sql = "INSERT INTO treningsdagbok.Group (Name) VALUES(?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, name);
         ps.executeUpdate();
     }
 
     public void addGroupToExercise(String exercise, String group) throws SQLException{
-        String sql = "INSERT INTO Exercise_has_Group (Group_Name, Exercise_Name) VALUES(?, ?)";
+        String sql = "INSERT INTO treningsdagbok.Exercise_has_Group (Group_Name, Exercise_Name) VALUES(?, ?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, group);
         ps.setString(2, exercise);

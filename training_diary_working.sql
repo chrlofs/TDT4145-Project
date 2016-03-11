@@ -26,7 +26,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `treningsdagbok`.`Training Session`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`Training Session` (
+CREATE TABLE IF NOT EXISTS `treningsdagbok`.`TrainingSession` (
   `Date` DATETIME NOT NULL,
   `Duration` INT NULL,
   `Shape` INT NULL,
@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS `treningsdagbok`.`Training Session` (
   `Humidity` DECIMAL(3) NULL,
   `Spectators` INT NULL,
   PRIMARY KEY (`Date`),
-  INDEX `fk_Training Session_sport_idx` (`sport_name` ASC),
-  CONSTRAINT `fk_Training Session_sport`
+  INDEX `fk_TrainingSession_sport_idx` (`sport_name` ASC),
+  CONSTRAINT `fk_TrainingSession_sport`
     FOREIGN KEY (`sport_name`)
     REFERENCES `treningsdagbok`.`sport` (`name`)
     ON DELETE NO ACTION
@@ -61,24 +61,24 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `treningsdagbok`.`ExcercisePerformed`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `treningsdagbok`.`ExcercisePerformed` (
+CREATE TABLE IF NOT EXISTS `treningsdagbok`.`ExercisePerformed` (
   `Sets` INT NULL,
   `Reps` INT NULL,
   `Load` INT NULL,
   `Distance` DECIMAL(2) NULL,
   `Duration` INT NULL,
   `Exercise_Name` VARCHAR(30) NOT NULL,
-  `Training Session_Date` DATETIME NOT NULL,
-  PRIMARY KEY (`Exercise_Name`, `Training Session_Date`),
-  INDEX `fk_ExcercisePerformed_Training Session1_idx` (`Training Session_Date` ASC),
+  `TrainingSession_Date` DATETIME NOT NULL,
+  PRIMARY KEY (`Exercise_Name`, `TrainingSession_Date`),
+  INDEX `fk_ExcercisePerformed_Training Session1_idx` (`TrainingSession_Date` ASC),
   CONSTRAINT `fk_ExcercisePerformed_Exercise1`
     FOREIGN KEY (`Exercise_Name`)
     REFERENCES `treningsdagbok`.`Exercise` (`Name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ExcercisePerformed_Training Session1`
-    FOREIGN KEY (`Training Session_Date`)
-    REFERENCES `treningsdagbok`.`Training Session` (`Date`)
+  CONSTRAINT `fk_ExcercisePerformed_TrainingSession1`
+    FOREIGN KEY (`TrainingSession_Date`)
+    REFERENCES `treningsdagbok`.`TrainingSession` (`Date`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
