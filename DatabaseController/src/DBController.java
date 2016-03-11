@@ -111,12 +111,21 @@ public class DBController {
     }
 //NOT FINISHED
     public List<Excercise> getExercises(String name) throws SQLException{
-        final String queryCheck = "SELECT * from ExercisePerformed";
+        final String queryCheck = "SELECT * from ExercisePerformed where ExercisePerformed.Exercise_Name=name";
         final PreparedStatement ps = conn.prepareStatement(queryCheck);
         ResultSet results = ps.executeQuery();
-        List<String> notes = new ArrayList<String>();
+        List<Excercise> notes = new ArrayList<Excercise>();
+        Excercise e ;
         while(results.next()){
-            notes.add(results.getString(1));
+            int sets = results.getInt(1);
+            int reps = results.getInt(2);
+            int load = results.getInt(3);
+            double distance = results.getDouble(4);
+            int duration = results.getInt(5) ;
+            String excercise_name = results.getString(6);
+            Date time = results.getDate(7);
+            e = new Excercise(sets, reps, load, distance, duration, excercise_name, time);
+            notes.add(e);
         }
         return notes;
     }
