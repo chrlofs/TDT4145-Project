@@ -11,7 +11,7 @@ public class DBController {
     public DBController() {
         String dbURL = "jdbc:mysql://localhost:3306/training_diary_DB";
         String username = "root";
-        String password = "7x32qus1Sql";
+        String password = "";
 
         try {
 
