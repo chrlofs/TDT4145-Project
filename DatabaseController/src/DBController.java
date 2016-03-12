@@ -26,6 +26,10 @@ public class DBController {
     }
 
     public void addExercise(String name, String description) throws SQLException {
+        if (! this.exerciseExists(name) ){
+            System.out.println("This exercise already exists");
+            return;
+        }
         String sql = "INSERT INTO treningsdagbok.Exercise (Name, Description) VALUES (?, ?)";
 
         PreparedStatement statement = conn.prepareStatement(sql);
@@ -98,7 +102,7 @@ public class DBController {
         }
     }
 
-    public boolean ExcerciseExists(String name) throws SQLException {
+    public boolean exerciseExists(String name) throws SQLException {
         final String queryCheck = "SELECT count(*) FROM Excercise WHERE name = ?";
         final PreparedStatement ps = conn.prepareStatement(queryCheck);
         ps.setString(1, name);
