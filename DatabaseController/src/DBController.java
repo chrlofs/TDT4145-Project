@@ -131,7 +131,7 @@ public class DBController {
         final PreparedStatement ps = conn.prepareStatement(queryCheck);
         ps.setString(1, name);
         ResultSet results = ps.executeQuery();
-        List<Excercise> notes = new ArrayList<Excercise>();
+        List<Excercise> exercices = new ArrayList<Excercise>();
         Excercise e;
         while (results.next()) {
             int sets = results.getInt(1);
@@ -142,9 +142,9 @@ public class DBController {
             String excercise_name = results.getString(6);
             Date time = results.getDate(7);
             e = new Excercise(sets, reps, load, distance, duration, excercise_name, time);
-            notes.add(e);
+            exercices.add(e);
         }
-        return notes;
+        return exercises;
     }
 
     public void addGoal(Date date, double speed, Integer weightLifted, String exerciseName) throws SQLException{
