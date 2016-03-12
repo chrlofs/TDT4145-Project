@@ -9,7 +9,7 @@ public class DBController {
     Connection conn;
 
     public DBController() {
-        String dbURL = "jdbc:mysql://localhost:3306/training_diary_DB";
+        String dbURL = "jdbc:mysql://localhost:3306/treningsdagbok";
         String username = "root";
         String password = "";
 
@@ -26,7 +26,7 @@ public class DBController {
     }
 
     public void addExercise(String name, String description) throws SQLException {
-        if (! this.exerciseExists(name) ){
+        if (this.exerciseExists(name) ){
             System.out.println("This exercise already exists");
             return;
         }
@@ -71,7 +71,6 @@ public class DBController {
         statement.setDouble(9, temperature);
         statement.setDouble(10, humidity);
         statement.setInt(11, spectators);
-        System.out.println(sql);
 
 
         int rowsInserted = statement.executeUpdate();
@@ -79,31 +78,27 @@ public class DBController {
             System.out.println("A new training session was inserted successfully!");
         }
     }
-    public void addExcercisePerformed(Integer sets, Integer reps, Integer weight, double distance, Integer duration, String name, Date time) throws SQLException{
+    public void addExcercisePerformed(Integer sets, Integer reps, Integer weight, double distance,
+                                      Integer duration, String name, Date time) throws SQLException{
         String sql = "INSERT INTO treningsdagbok.ExercisePerformed (Sets, Reps, Weight, Distance, Duration, Exercise_Name, TrainingSession_Date) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        System.out.println(sql);
 
         PreparedStatement statement = conn.prepareStatement(sql);
         System.out.println();
-        System.out.println("Statment was made, ey o k");
         statement.setInt(1, sets);
-        System.out.println("First thing was put in");
         statement.setInt(2, reps);
         statement.setInt(3, weight);
         statement.setDouble(4, distance);
         statement.setInt(5, duration);
         statement.setString(6, name);
         statement.setDate(7, time);
-        System.out.println(sql);
         int rowsInserted = statement.executeUpdate();
-        System.out.println("THe line after");
         if (rowsInserted > 0) {
             System.out.println("A new exercise was performed");
         }
     }
 
     public boolean exerciseExists(String name) throws SQLException {
-        final String queryCheck = "SELECT count(*) FROM Excercise WHERE name = ?";
+        final String queryCheck = "SELECT count(*) FROM Exercise WHERE name = ?";
         final PreparedStatement ps = conn.prepareStatement(queryCheck);
         ps.setString(1, name);
         final ResultSet resultSet = ps.executeQuery();
@@ -125,13 +120,12 @@ public class DBController {
         return notes;
     }
 
-    //NOT FINISHED
     public List<Excercise> getExercises(String name) throws SQLException {
         final String queryCheck = "SELECT * FROM treningsdagbok.ExercisePerformed WHERE ExercisePerformed.Exercise_Name=?";
         final PreparedStatement ps = conn.prepareStatement(queryCheck);
         ps.setString(1, name);
         ResultSet results = ps.executeQuery();
-        List<Excercise> exercices = new ArrayList<Excercise>();
+        List<Excercise> exercises = new ArrayList<Excercise>();
         Excercise e;
         while (results.next()) {
             int sets = results.getInt(1);
@@ -142,7 +136,7 @@ public class DBController {
             String excercise_name = results.getString(6);
             Date time = results.getDate(7);
             e = new Excercise(sets, reps, load, distance, duration, excercise_name, time);
-            exercices.add(e);
+            exercises.add(e);
         }
         return exercises;
     }
@@ -169,15 +163,21 @@ public class DBController {
         String sql = "INSERT INTO treningsdagbok.Group (Name) VALUES(?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, name);
-        ps.executeUpdate();
+        int rowsInserted = ps.executeUpdate();
+        if (rowsInserted > 0) {
+            System.out.println("A new group was been constructed");
+        }
     }
 
-    public void addGroupToExercise(String exercise, String group) throws SQLException {
+    public void addExerciseToGroup(String exercise, String group) throws SQLException {
         String sql = "INSERT INTO treningsdagbok.Exercise_has_Group (Group_Name, Exercise_Name) VALUES(?, ?)";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, group);
         ps.setString(2, exercise);
-        ps.executeUpdate();
+        int rowsInserted = ps.executeUpdate();
+        if (rowsInserted > 0) {
+            System.out.println("Exercise added to group");
+        }
     }
 
 
@@ -185,18 +185,23 @@ public class DBController {
         DBController c = new DBController();
         try{
             String s = "Bench Press";
-            /*
             Date d = new Date(1,1,1);
+
             c.addSport("Olympic lifts");
             c.addExercise(s, "Press a bench");
+            c.exerciseExists(s);
+            c.deleteExercise(s);
+            c.addExercise(s, "Press a bench");
+            c.changeDescription(s, "Bench a press");
             c.addTrainingSession(d,50,10,7,"Fucking killed it today. I'm a beast",
                     "Olympic lifts", "Indoor", "0", 0, 0, 1000000);
             c.addExcercisePerformed(5,5,100,0,0,s,d);
+            c.createGroup(s);
+            c.addExerciseToGroup(s, s);
+            c.addGoal(d, 0, 100, s);
+
             System.out.println(c.getNotes());
-            */
             System.out.println(c.getExercises(s));
-
-
 
         }catch(SQLException e){
             System.out.println(e.getMessage());
