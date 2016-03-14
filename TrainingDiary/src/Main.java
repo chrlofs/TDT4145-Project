@@ -22,8 +22,23 @@ public class Main {
         return controller;
     }
 
+    private void addTraingingSession() {
+
+    }
+
+    private void collectSessions() {
+        System.out.println("Hvilken øvelse vil du ha oversikt over? ");
+        String exercise = scanner.next();
+
+        try {
+            List<Exercise> exercises = controller.getExercises(exercise);
+            System.out.println(exercises.get(0));
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     private void addExercise() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Navn på øvelsen: ");
         String exercise = scanner.next();
         System.out.print("Beskrivelse på øvelsen: ");
@@ -31,19 +46,6 @@ public class Main {
 
         try {
             controller.addExercise(exercise, description);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void collectSessions() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Hvilken øvelse vil du ha oversikt over? ");
-        String exercise = scanner.next();
-
-        try {
-            List<Exercise> exercises = controller.getExercises(exercise);
-            System.out.println(exercises.get(0));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -106,12 +108,13 @@ public class Main {
             int scase = Integer.parseInt(main.scanner.nextLine());
             switch(scase) {
                 case 1:
-                    main.addExercise();
+
                     break;
                 case 2:
                     main.collectSessions();
                     break;
                 case 3:
+                    main.addExercise();
                     break;
                 case 4:
                     main.getTopTen();
