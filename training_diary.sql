@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `treningsdagbok`.`Training Session` (
  `Duration` INT NULL,
  `Shape` INT NULL,
  `Rating` INT NULL,
- `Note` INT NULL,
+ `Note` TEXT NULL,
  `sport_name` VARCHAR(30) NOT NULL,
  `Type` VARCHAR(45) NULL,
  `Weather_type` VARCHAR(45) NULL,
