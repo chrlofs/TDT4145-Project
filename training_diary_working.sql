@@ -59,7 +59,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `treningsdagbok`.`ExcercisePerformed`
+-- Table `treningsdagbok`.`ExercisePerformed`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `treningsdagbok`.`ExercisePerformed` (
   `Sets` INT NULL,
@@ -70,13 +70,13 @@ CREATE TABLE IF NOT EXISTS `treningsdagbok`.`ExercisePerformed` (
   `Exercise_Name` VARCHAR(30) NOT NULL,
   `TrainingSession_Date` DATETIME NOT NULL,
   PRIMARY KEY (`Exercise_Name`, `TrainingSession_Date`),
-  INDEX `fk_ExcercisePerformed_Training Session1_idx` (`TrainingSession_Date` ASC),
-  CONSTRAINT `fk_ExcercisePerformed_Exercise1`
+  INDEX `fk_ExercisePerformed_Training Session1_idx` (`TrainingSession_Date` ASC),
+  CONSTRAINT `fk_ExercisePerformed_Exercise1`
     FOREIGN KEY (`Exercise_Name`)
     REFERENCES `treningsdagbok`.`Exercise` (`Name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ExcercisePerformed_TrainingSession1`
+  CONSTRAINT `fk_ExercisePerformed_TrainingSession1`
     FOREIGN KEY (`TrainingSession_Date`)
     REFERENCES `treningsdagbok`.`TrainingSession` (`Date`)
     ON DELETE NO ACTION

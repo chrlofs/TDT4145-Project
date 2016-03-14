@@ -1,5 +1,4 @@
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -74,7 +73,7 @@ public class View {
         String exercise = scanner.next();
 
         try {
-            List<Excercise> exercises = controller.getExercises(exercise);
+            List<Exercise> exercises = controller.getExercises(exercise);
             System.out.println(exercises.get(0));
         } catch (SQLException e) {
             System.out.println(e.getMessage());

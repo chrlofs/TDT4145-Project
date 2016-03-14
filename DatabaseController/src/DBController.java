@@ -38,7 +38,7 @@ public class DBController {
 
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println("A new excercise was inserted successfully!");
+            System.out.println("A new exercise was inserted successfully!");
         }
     }
 
@@ -78,7 +78,7 @@ public class DBController {
             System.out.println("A new training session was inserted successfully!");
         }
     }
-    public void addExcercisePerformed(Integer sets, Integer reps, Integer weight, double distance,
+    public void addExercisePerformed(Integer sets, Integer reps, Integer weight, double distance,
                                       Integer duration, String name, Date time) throws SQLException{
         String sql = "INSERT INTO treningsdagbok.ExercisePerformed (Sets, Reps, Weight, Distance, Duration, Exercise_Name, TrainingSession_Date) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -120,22 +120,22 @@ public class DBController {
         return notes;
     }
 
-    public List<Excercise> getExercises(String name) throws SQLException {
+    public List<Exercise> getExercises(String name) throws SQLException {
         final String queryCheck = "SELECT * FROM treningsdagbok.ExercisePerformed WHERE ExercisePerformed.Exercise_Name=?";
         final PreparedStatement ps = conn.prepareStatement(queryCheck);
         ps.setString(1, name);
         ResultSet results = ps.executeQuery();
-        List<Excercise> exercises = new ArrayList<Excercise>();
-        Excercise e;
+        List<Exercise> exercises = new ArrayList<Exercise>();
+        Exercise e;
         while (results.next()) {
             int sets = results.getInt(1);
             int reps = results.getInt(2);
             int load = results.getInt(3);
             double distance = results.getDouble(4);
             int duration = results.getInt(5) ;
-            String excercise_name = results.getString(6);
+            String exercise_name = results.getString(6);
             Date time = results.getDate(7);
-            e = new Excercise(sets, reps, load, distance, duration, excercise_name, time);
+            e = new Exercise(sets, reps, load, distance, duration, exercise_name, time);
             exercises.add(e);
         }
         return exercises;
@@ -195,7 +195,7 @@ public class DBController {
             c.changeDescription(s, "Bench a press");
             c.addTrainingSession(d,50,10,7,"Fucking killed it today. I'm a beast",
                     "Olympic lifts", "Indoor", "0", 0, 0, 1000000);
-            c.addExcercisePerformed(5,5,100,0,0,s,d);
+            c.addExercisePerformed(5,5,100,0,0,s,d);
             c.createGroup(s);
             c.addExerciseToGroup(s, s);
             c.addGoal(d, 0, 100, s);
