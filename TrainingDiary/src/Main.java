@@ -8,7 +8,6 @@ import java.sql.Statement;
 public class Main {
 
     Scanner scanner = new Scanner(System.in);
-
     private DBController controller;
 
     public Main(DBController controller) {
@@ -24,38 +23,33 @@ public class Main {
     }
 
     private void addTrainingSession() {
-        // addTrainingSession(Date time, Integer duration, Integer shape, Integer rating, String note,
-        // String sportname, String type, String weather_type, double temperature, double humidity, Integer spectators)
-        // TODO: Add training session
-
-        while (true) {
-            // Loop for adding exercises
-            System.out.println("* betyr obligatorisk");
-            System.out.println("Legg inn antall sett*");
-            int sets = Integer.parseInt(scanner.nextLine());
-            System.out.println("Legg inn antall reps*");
-            int reps = Integer.parseInt(scanner.nextLine());
-            System.out.println("Legg inn vekt (kg)*");
-            int load = Integer.parseInt(scanner.nextLine());
-            System.out.println("Legg inn lengde");
-            int meters = Integer.parseInt(scanner.nextLine());
-            System.out.println("Legg inn varighet");
-            int seconds = Integer.parseInt(scanner.nextLine());
-            System.out.println("Legg inn navn");  // ??? Hvorfor ???
-            String name = scanner.nextLine();
-            System.out.println("Legger inn dagens dato");
-            Date date = new Date();
-            controller.addExercisePerformed(sets, reps, load, meters, seconds, name, date);
-        }
-    }
-
-    private void collectSessions() {
-        System.out.println("Hvilken øvelse vil du ha oversikt over? ");
-        String exercise = scanner.next();
+        System.out.println("* betyr obligatorisk");
+        // Date is deprecated and we will only allow to add a training session from the current day.
+        System.out.println("Setter dagens dato som dato for treningsøkten");
+        Date date = new Date();
+        System.out.println("Legg inn varighet: ");
+        int seconds = Integer.parseInt(scanner.nextLine());
+        System.out.println("Legg inn form: ");
+        int shape = Integer.parseInt(scanner.nextLine());
+        System.out.println("Legg inn rating: ");
+        int rating = Integer.parseInt(scanner.nextLine());
+        System.out.println("Legg inn notat: ");
+        String note = scanner.nextLine();
+        System.out.println("Legg inn navnet på idretten: ");
+        String sportname = scanner.nextLine();
+        System.out.println("Legg inn type: ");
+        String type = scanner.nextLine();
+        System.out.println("Legg inn værtype: ");
+        String weather_type = scanner.nextLine();
+        System.out.println("Legg inn temperatur: ");
+        int temperature = Integer.parseInt(scanner.nextLine());
+        System.out.println("Legg inn luftfuktighet: ");
+        double humidity = Double.parseDouble(scanner.nextLine());
+        System.out.println("Legg til tilskuere: ");
+        int spectators = Integer.parseInt(scanner.nextLine());
 
         try {
-            List<Exercise> exercises = controller.getExercises(exercise);
-            System.out.println(exercises.get(0));
+            controller.addTrainingSession(date, seconds, shape, rating, note, sportname, type, weather_type, temperature, humidity, spectators);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -69,6 +63,18 @@ public class Main {
 
         try {
             controller.addExercise(exercise, description);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void collectSessions() {
+        System.out.println("Hvilken øvelse vil du ha oversikt over? ");
+        String exercise = scanner.next();
+
+        try {
+            List<Exercise> exercises = controller.getExercises(exercise);
+            System.out.println(exercises.get(0));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -93,8 +99,8 @@ public class Main {
             String welcome = "Velkommen til treningsdagboken\n";
             welcome += "Vennligst velg din handling ved å taste riktig tallkode under, etterfulgt av enter: \n";
             welcome += "1 - Legg inn ny treningsøkt\n";
-            welcome += "2 - Hent ut tidligere treningsøkter\n";
-            welcome += "3 - Legg til ny øvelse\n";
+            welcome += "2 - Legg til ny øvelse\n";
+            welcome += "3 - Hent ut tidligere treningsøkter\n";
             welcome += "4 - Oppdater øvelse med ny beskrivelse\n";
 
             System.out.print(welcome);
@@ -103,13 +109,13 @@ public class Main {
             int scase = Integer.parseInt(main.scanner.nextLine());
             switch(scase) {
                 case 1:
-
+                    main.addTrainingSession();
                     break;
                 case 2:
-                    main.collectSessions();
+                    main.addExercise();
                     break;
                 case 3:
-                    main.addExercise();
+                    main.collectSessions();
                     break;
                 case 4:
                     main.updateExerciseDescription();
@@ -119,5 +125,4 @@ public class Main {
             }
         }
     }
-
 }
