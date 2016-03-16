@@ -43,9 +43,8 @@ public class Main {
             int seconds = Integer.parseInt(scanner.nextLine());
             System.out.println("Legg inn navn");  // ??? Hvorfor ???
             String name = scanner.nextLine();
-            System.out.println("Legg inn dato");
-            Date date = scanner.nextLine();  // Parse date somehow
-
+            System.out.println("Legger inn dagens dato");
+            Date date = new Date();
             controller.addExercisePerformed(sets, reps, load, meters, seconds, name, date);
         }
     }
@@ -75,43 +74,13 @@ public class Main {
         }
     }
 
-    private void getTopTen() {
+    private void updateExerciseDescription() {
+        System.out.println("Hvilken øvelse vil du endre? ");
+        String exercise = scanner.nextLine();
+        System.out.println("Ny beskrivelse: ");
+        String description = scanner.nextLine();
         try {
-            Statement statement = controller.conn.createStatement();
-            System.out.println("styrke eller utholdenhet? (case sensitive)");
-            String line = scanner.nextLine();
-            System.out.println("Velg øvelse");
-            String line2 = scanner.nextLine();
-
-            switch (line) {
-                case "styrke":
-                    // Do something
-                    try {
-                        Statement stmt = controller.conn.createStatement();
-                        // TODO: Remove query from main
-                        ResultSet rs = stmt.executeQuery("SELECT training_session, Load, Reps, Sets FROM Resultat WHERE Name="+line2+" ORDER BY Load DESC limit "+10+";");
-                        while(rs.next()) {
-                            System.out.println("| "+rs.getDate("treningsøkt") + " | " + rs.getString("belastning") + " | " + rs.getInt("antall_rep") + " | " + rs.getInt("antall_sett") + " |");
-                        }
-                    }
-                    catch(SQLException e){
-                        System.out.println(e);
-                    }
-
-                case "utholdenhet":
-                    // Do something
-                    try {
-                        Statement stmt = controller.conn.createStatement();
-                        // TODO: Remove query from main
-                        ResultSet rs = stmt.executeQuery("SELECT training_session, Distance, Duration FROM Resultat WHERE Name="+line2+" ORDER BY Duration ASC limit "+10+";");
-                        while(rs.next()) {
-                            System.out.println("| "+rs.getDate("treningsøkt") + " | " + rs.getString("varighet") + " | " + rs.getInt("lengde") + " |" );
-                        }
-                    }
-                    catch(SQLException e){
-                        System.out.println(e);
-                    }
-            }
+            controller.changeDescription(exercise, description);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -126,7 +95,7 @@ public class Main {
             welcome += "1 - Legg inn ny treningsøkt\n";
             welcome += "2 - Hent ut tidligere treningsøkter\n";
             welcome += "3 - Legg til ny øvelse\n";
-            welcome += "4 - Hent topp 10 for en øvelse , sortert på dato\n";
+            welcome += "4 - Oppdater øvelse med ny beskrivelse\n";
 
             System.out.print(welcome);
             System.out.print("> ");
@@ -143,7 +112,7 @@ public class Main {
                     main.addExercise();
                     break;
                 case 4:
-                    main.getTopTen();
+                    main.updateExerciseDescription();
                     break;
                 default:
                     break;
