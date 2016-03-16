@@ -55,14 +55,25 @@ public class Main {
         }
     }
 
-    private void addExercise() {
-        System.out.print("Navn på øvelsen: ");
-        String exercise = scanner.next();
-        System.out.print("Beskrivelse på øvelsen: ");
-        String description = scanner.next();
+    private void addExercisePerformed() {
+        System.out.println("* betyr obligatorisk");
+        System.out.print("*Navn på øvelsen: ");
+        String name = scanner.next();
+        System.out.println("*Legg inn antall sett: ");
+        int sets = Integer.parseInt(scanner.nextLine());
+        System.out.println("*Legg inn antall reps: ");
+        int reps = Integer.parseInt(scanner.nextLine());
+        System.out.println("*Legg inn vekt (kg): ");
+        int load = Integer.parseInt(scanner.nextLine());
+        System.out.println("Legg inn lengde: ");
+        int meters = Integer.parseInt(scanner.nextLine());
+        System.out.println("Legg inn varighet: ");
+        int seconds = Integer.parseInt(scanner.nextLine());
+        System.out.println("Legger inn dagens dato");
+        Date date = new Date();
 
         try {
-            controller.addExercise(exercise, description);
+            controller.addExercisePerformed(sets, reps, load, meters, seconds, name, date);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -99,7 +110,7 @@ public class Main {
             String welcome = "Velkommen til treningsdagboken\n";
             welcome += "Vennligst velg din handling ved å taste riktig tallkode under, etterfulgt av enter: \n";
             welcome += "1 - Legg inn ny treningsøkt\n";
-            welcome += "2 - Legg til ny øvelse\n";
+            welcome += "2 - Legg til ny utført øvelse\n";
             welcome += "3 - Hent ut tidligere treningsøkter\n";
             welcome += "4 - Oppdater øvelse med ny beskrivelse\n";
 
@@ -112,7 +123,7 @@ public class Main {
                     main.addTrainingSession();
                     break;
                 case 2:
-                    main.addExercise();
+                    main.addExercisePerformed();
                     break;
                 case 3:
                     main.collectSessions();
