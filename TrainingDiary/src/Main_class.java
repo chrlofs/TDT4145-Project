@@ -1,6 +1,7 @@
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Scanner;
 import java.sql.Statement;
@@ -26,7 +27,7 @@ public class Main_class {
         System.out.println("* betyr obligatorisk");
         // Date is deprecated and we will only allow to add a training session from the current day.
         System.out.println("Setter dagens dato som dato for treningsøkten");
-        Date date = new Date(1,1,1);
+        Date date = new Date(1, 1, 1);
         System.out.println("Legg inn varighet: ");
         int seconds = Integer.parseInt(scanner.nextLine());
         System.out.println("Legg inn form: ");
@@ -36,17 +37,43 @@ public class Main_class {
         System.out.println("Legg inn notat: ");
         String note = scanner.nextLine();
         System.out.println("Legg inn navnet på idretten: ");
+
+        String type;
         String sportname = scanner.nextLine();
-        System.out.println("Legg inn type: ");
-        String type = scanner.nextLine();
-        System.out.println("Legg inn værtype: ");
-        String weather_type = scanner.nextLine();
-        System.out.println("Legg inn temperatur: ");
-        int temperature = Integer.parseInt(scanner.nextLine());
-        System.out.println("Legg inn luftfuktighet: ");
-        double humidity = Double.parseDouble(scanner.nextLine());
-        System.out.println("Legg til tilskuere: ");
-        int spectators = Integer.parseInt(scanner.nextLine());
+        while (true) {
+            System.out.println("Tast 1 for innendørsøkt, 2 for utendørsøkt: ");
+
+            if(scanner.hasNextInt()) {
+                type = scanner.nextLine();
+                if(type.equals("1")) {
+                    type = "indoor";
+                    break;
+                } else if (type.equals("2")) {
+                    type = "outdoor";
+                    break;
+                }
+            }
+            System.out.println("Skriv inn en gyldig verdi!");
+        }
+
+        String weather_type = "";
+        int temperature = 0;
+        double humidity = 0.0;
+        int spectators = 0;
+
+        if(type.equals("outdoor")) {
+            System.out.println("Legg inn værtype: ");
+            weather_type = scanner.nextLine();
+            System.out.println("Legg inn temperatur: ");
+            temperature = Integer.parseInt(scanner.nextLine());
+        } else {
+            System.out.println("Legg inn luftfuktighet: ");
+            humidity = Double.parseDouble(scanner.nextLine());
+            System.out.println("Legg til tilskuere: ");
+            spectators = Integer.parseInt(scanner.nextLine());
+        }
+
+
 
         try {
             controller.addTrainingSession(date, seconds, shape, rating, note, sportname, type, weather_type, temperature, humidity, spectators);
@@ -59,6 +86,14 @@ public class Main_class {
         System.out.println("* betyr obligatorisk");
         System.out.print("*Navn på øvelsen: ");
         String name = scanner.nextLine();
+        while (true) {
+            try {
+                controller.exerciseExists(name);
+                break;
+            } catch (SQLException e) {
+                System.out.println("Ugyldig navn, prøv igjen!");
+            }
+        }
         System.out.println("*Legg inn antall sett: ");
         int sets = Integer.parseInt(scanner.nextLine());
         System.out.println("*Legg inn antall reps: ");
@@ -66,9 +101,17 @@ public class Main_class {
         System.out.println("*Legg inn vekt (kg): ");
         int load = Integer.parseInt(scanner.nextLine());
         System.out.println("Legg inn lengde: ");
-        int meters = Integer.parseInt(scanner.nextLine());
+        int meters = 0;
+        String input = scanner.nextLine();
+        if(! input.isEmpty()) {
+            meters = Integer.parseInt(input);
+        }
         System.out.println("Legg inn varighet: ");
-        int seconds = Integer.parseInt(scanner.nextLine());
+        int seconds = 0;
+        input = scanner.nextLine();
+        if(! input.isEmpty()) {
+            seconds = Integer.parseInt(input);
+        }
         System.out.println("Legger inn dagens dato");
         Date date = new Date(1,1,1);
 
