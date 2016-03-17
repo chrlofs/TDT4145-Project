@@ -180,35 +180,6 @@ public class DBController {
         }
     }
 
-
-    public static void main(String[] args) {
-        DBController c = new DBController();
-        try{
-            String s = "Bench Press";
-            Date d = new Date(1,1,1);
-
-            c.addSport("Olympic lifts");
-            c.addExercise(s, "Press a bench");
-            c.exerciseExists(s);
-            c.deleteExercise(s);
-            c.addExercise(s, "Press a bench");
-            c.changeDescription(s, "Bench a press");
-            c.addTrainingSession(d,50,10,7,"Fucking killed it today. I'm a beast",
-                    "Olympic lifts", "Indoor", "0", 0, 0, 1000000);
-            c.addExercisePerformed(5,5,100,0,0,s,d);
-            c.createGroup(s);
-            c.addExerciseToGroup(s, s);
-            c.addGoal(d, 0, 100, s);
-
-            System.out.println(c.getNotes());
-            System.out.println(c.getExercises(s));
-
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
-        }
-    }
-
-
     public void deleteExercise(String name) throws SQLException {
         String sql = "DELETE FROM treningsdagbok.Exercise WHERE Name=?";
 
@@ -232,4 +203,76 @@ public class DBController {
             System.out.println("An existing exercise was updated successfully!");
         }
     }
+    /*
+   public static void main(String[] args){
+
+       Main_class m = new Main_class(new DBController());
+       String s = "s";
+       Date d = new Date(1,1,1);
+       DBController c = new DBController();
+       try{
+           c.addSport("b");
+           c.addExercise(s, "Press a bench");
+       }catch(SQLException e){
+           System.out.println(e.getMessage());
+       }
+
+       while(true) {
+           String welcome = "Velkommen til treningsdagboken\n";
+           welcome += "Vennligst velg din handling ved å taste riktig tallkode under, etterfulgt av enter: \n";
+           welcome += "1 - Legg inn ny treningsøkt\n";
+           welcome += "2 - Legg til ny utført øvelse\n";
+           welcome += "3 - Hent ut tidligere treningsøkter\n";
+           welcome += "4 - Oppdater øvelse med ny beskrivelse\n";
+
+           System.out.print(welcome);
+           System.out.print("> ");
+
+           int scase = Integer.parseInt(m.scanner.nextLine());
+           switch(scase) {
+               case 1:
+                   m.addTrainingSession();
+                   break;
+               case 2:
+                   m.addExercisePerformed();
+                   break;
+               case 3:
+                   m.collectSessions();
+                   break;
+               case 4:
+                   m.updateExerciseDescription();
+                   break;
+               default:
+                   break;
+           }
+       }
+   }
+    */
+    public static void main(String[] args) {
+        DBController c = new DBController();
+        try{
+            String s = "Bench Press";
+            Date d = new Date(1,1,1);
+            c.addSport("Olympic lifts");
+            c.addExercise(s, "Press a bench");
+            c.exerciseExists(s);
+            c.deleteExercise(s);
+            c.addExercise(s, "Press a bench");
+            c.changeDescription(s, "Bench a press");
+            c.addTrainingSession(d,50,10,7,"Fucking killed it today. I'm a beast",
+                    "Olympic lifts", "Indoor", "0", 0, 0, 1000000);
+            c.addExercisePerformed(5,5,100,0,0,s,d);
+            c.createGroup(s);
+            c.addExerciseToGroup(s, s);
+            c.addGoal(d, 0, 100, s);
+
+            System.out.println(c.getNotes());
+            System.out.println(c.getExercises(s));
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
 }
+
+

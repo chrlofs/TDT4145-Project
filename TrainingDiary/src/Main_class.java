@@ -5,28 +5,28 @@ import java.util.List;
 import java.util.Scanner;
 import java.sql.Statement;
 
-public class Main {
+public class Main_class {
 
     Scanner scanner = new Scanner(System.in);
-    private DBController controller;
+    public DBController controller;
 
-    public Main(DBController controller) {
+    public Main_class(DBController controller) {
         setController(controller);
     }
 
-    private void setController(DBController controller) {
+    public void setController(DBController controller) {
         this.controller = controller;
     }
 
-    private DBController getController() {
+    public DBController getController() {
         return controller;
     }
 
-    private void addTrainingSession() {
+    public void addTrainingSession() {
         System.out.println("* betyr obligatorisk");
         // Date is deprecated and we will only allow to add a training session from the current day.
         System.out.println("Setter dagens dato som dato for treningsøkten");
-        Date date = new Date();
+        Date date = new Date(1,1,1);
         System.out.println("Legg inn varighet: ");
         int seconds = Integer.parseInt(scanner.nextLine());
         System.out.println("Legg inn form: ");
@@ -55,10 +55,10 @@ public class Main {
         }
     }
 
-    private void addExercisePerformed() {
+    public void addExercisePerformed() {
         System.out.println("* betyr obligatorisk");
         System.out.print("*Navn på øvelsen: ");
-        String name = scanner.next();
+        String name = scanner.nextLine();
         System.out.println("*Legg inn antall sett: ");
         int sets = Integer.parseInt(scanner.nextLine());
         System.out.println("*Legg inn antall reps: ");
@@ -70,7 +70,7 @@ public class Main {
         System.out.println("Legg inn varighet: ");
         int seconds = Integer.parseInt(scanner.nextLine());
         System.out.println("Legger inn dagens dato");
-        Date date = new Date();
+        Date date = new Date(1,1,1);
 
         try {
             controller.addExercisePerformed(sets, reps, load, meters, seconds, name, date);
@@ -79,7 +79,7 @@ public class Main {
         }
     }
 
-    private void collectSessions() {
+    public void collectSessions() {
         System.out.println("Hvilken øvelse vil du ha oversikt over? ");
         String exercise = scanner.next();
 
@@ -91,7 +91,7 @@ public class Main {
         }
     }
 
-    private void updateExerciseDescription() {
+    public void updateExerciseDescription() {
         System.out.println("Hvilken øvelse vil du endre? ");
         String exercise = scanner.nextLine();
         System.out.println("Ny beskrivelse: ");
@@ -103,8 +103,8 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        Main main = new Main(new DBController());
+    public static void main(String[] args) {
+        Main_class m = new Main_class(new DBController());
 
         while(true) {
             String welcome = "Velkommen til treningsdagboken\n";
@@ -117,19 +117,19 @@ public class Main {
             System.out.print(welcome);
             System.out.print("> ");
 
-            int scase = Integer.parseInt(main.scanner.nextLine());
+            int scase = Integer.parseInt(m.scanner.nextLine());
             switch(scase) {
                 case 1:
-                    main.addTrainingSession();
+                    m.addTrainingSession();
                     break;
                 case 2:
-                    main.addExercisePerformed();
+                    m.addExercisePerformed();
                     break;
                 case 3:
-                    main.collectSessions();
+                    m.collectSessions();
                     break;
                 case 4:
-                    main.updateExerciseDescription();
+                    m.updateExerciseDescription();
                     break;
                 default:
                     break;
