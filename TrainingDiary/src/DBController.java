@@ -38,7 +38,7 @@ public class DBController {
 
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println("A new exercise was inserted successfully!");
+            System.out.println("En ny øvelse er lagt til!");
         }
     }
 
@@ -51,7 +51,7 @@ public class DBController {
 
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println("A new sport was inserted successfully!");
+            System.out.println("En ny sport er lagt til!");
         }
     }
 
@@ -75,7 +75,7 @@ public class DBController {
 
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println("A new training session was inserted successfully!");
+            System.out.println("En ny treningsøkt er lagt til!");
         }
     }
     public void addExercisePerformed(Integer sets, Integer reps, Integer weight, double distance,
@@ -93,7 +93,7 @@ public class DBController {
         statement.setDate(7, time);
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println("A new exercise was performed");
+            System.out.println("En ny øvelse er utført!");
         }
     }
 
@@ -154,7 +154,7 @@ public class DBController {
 
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println("A new goal was inserted successfully!");
+            System.out.println("Et nytt mål er lagt til!");
         }
     }
 
@@ -165,7 +165,7 @@ public class DBController {
         ps.setString(1, name);
         int rowsInserted = ps.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println("A new group was been constructed");
+            System.out.println("En ny gruppe har blitt laget!");
         }
     }
 
@@ -176,7 +176,7 @@ public class DBController {
         ps.setString(2, exercise);
         int rowsInserted = ps.executeUpdate();
         if (rowsInserted > 0) {
-            System.out.println("Exercise added to group");
+            System.out.println("Øvelse lagt til gruppe");
         }
     }
 
@@ -188,7 +188,7 @@ public class DBController {
 
         int rowsDeleted = statement.executeUpdate();
         if (rowsDeleted > 0) {
-            System.out.println("A exercise was deleted successfully!");
+            System.out.println("Øvelse slettet!");
         }
     }
 
@@ -200,77 +200,7 @@ public class DBController {
 
         int rowsUpdated = statement.executeUpdate();
         if (rowsUpdated > 0) {
-            System.out.println("An existing exercise was updated successfully!");
-        }
-    }
-    /*
-   public static void main(String[] args){
-
-       Main_class m = new Main_class(new DBController());
-       String s = "s";
-       Date d = new Date(1,1,1);
-       DBController c = new DBController();
-       try{
-           c.addSport("b");
-           c.addExercise(s, "Press a bench");
-       }catch(SQLException e){
-           System.out.println(e.getMessage());
-       }
-
-       while(true) {
-           String welcome = "Velkommen til treningsdagboken\n";
-           welcome += "Vennligst velg din handling ved å taste riktig tallkode under, etterfulgt av enter: \n";
-           welcome += "1 - Legg inn ny treningsøkt\n";
-           welcome += "2 - Legg til ny utført øvelse\n";
-           welcome += "3 - Hent ut tidligere treningsøkter\n";
-           welcome += "4 - Oppdater øvelse med ny beskrivelse\n";
-
-           System.out.print(welcome);
-           System.out.print("> ");
-
-           int scase = Integer.parseInt(m.scanner.nextLine());
-           switch(scase) {
-               case 1:
-                   m.addTrainingSession();
-                   break;
-               case 2:
-                   m.addExercisePerformed();
-                   break;
-               case 3:
-                   m.collectSessions();
-                   break;
-               case 4:
-                   m.updateExerciseDescription();
-                   break;
-               default:
-                   break;
-           }
-       }
-   }
-    */
-    public static void main(String[] args) {
-        DBController c = new DBController();
-        try{
-            String s = "Bench Press";
-            Date d = new Date(1,1,1);
-            c.addSport("Olympic lifts");
-            c.addExercise(s, "Press a bench");
-            c.exerciseExists(s);
-            c.deleteExercise(s);
-            c.addExercise(s, "Press a bench");
-            c.changeDescription(s, "Bench a press");
-            c.addTrainingSession(d,50,10,7,"Fucking killed it today. I'm a beast",
-                    "Olympic lifts", "Indoor", "0", 0, 0, 1000000);
-            c.addExercisePerformed(5,5,100,0,0,s,d);
-            c.createGroup(s);
-            c.addExerciseToGroup(s, s);
-            c.addGoal(d, 0, 100, s);
-
-            System.out.println(c.getNotes());
-            System.out.println(c.getExercises(s));
-
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
+            System.out.println("Øvelsen: " + name + " er nå oppdatert!");
         }
     }
 }
